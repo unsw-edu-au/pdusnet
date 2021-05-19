@@ -264,5 +264,6 @@ if __name__ == "__main__":
         #callbacks = get_callbacks(path_prefix)
 
         #print_section("Creating model on multiple GPUs")
-        test_model(args.model, test_dataset, args.batch_size, args.num_epochs, multi_modal, augment, test_only, early_fusion, late_fusion, pe_block, path_prefix, args.old_weights)
+        test_model(args.model, test_dataset, args.batch_size, args.num_epochs, multi_modal, augment, test_only, early_fusion,
+                   late_fusion, pe_block, path_prefix, args.old_weights)
 

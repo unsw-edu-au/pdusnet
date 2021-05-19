@@ -16,7 +16,6 @@ def _bytes_feature(value):
 def _int64_feature(value):
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
-
 def get_dataset_path(dataset_type):
     if dataset_type == "train":
         return os.path.join(data_path_prefix, 'Training')
@@ -47,6 +46,8 @@ def encode(volume_list, dataset_type, augment_data=False):
 
     batch_start = 0
     batch_count = 20
+    if dataset_type == "test":
+        batch_count = 20
     while batch_count <= len(preprocessed_volumes):
         with tf.io.TFRecordWriter(get_record_path(dataset_type, batch_start, augment_data)) as writer:
             for j, volume_tuple in enumerate(preprocessed_volumes[batch_start:batch_count]):
@@ -77,7 +78,11 @@ def encode(volume_list, dataset_type, augment_data=False):
         print("Done writing record " + str(batch_count) + "/" + str(len(preprocessed_volumes)) + "_size=" + str(bmode.shape) + str(pd.shape) + str(label.shape))
         writer.close()
         batch_start = batch_count
-        batch_count += 20
+        #batch_count += 20
+        if dataset_type != "test":
+            batch_count += 20
+        if dataset_type == "test":
+            batch_count += 20
 
     print_section('Finished encoding to .tfrecords file')
 
@@ -93,6 +98,8 @@ def create_dataset(dataset_type, augment_data=False):
 
     data_path = data_path_prefix
     images = os.listdir(data_path)
+    #need to sort by increment
+    images = [str(j)for j in sorted([int(i) for i in images])]
     images = get_data_split(dataset_type, images)
 
     all_bmodes = [os.path.join(data_path, img, img + '.nii.gz') for img in images]
