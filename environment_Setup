@@ -1,0 +1,85 @@
+export TF_ENABLE_AUTO_MIXED_PRECISION=1 && export PATH=$PATH:/usr/local/cuda-10.0/bin && export CUDADIR=/usr/local/cuda-10.0 && export CUDA_VISIBLE_DEVICES=0,1 && export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.0/lib64 && export TF_FORCE_GPU_ALLOW_GROWTH=true
+
+
+(tf2_gpu) mahmood@pirg-server:/mnt/raid/mahmood/nnet_fw$ conda info
+
+     active environment : tf2_gpu
+    active env location : /home/gordon/anaconda3/envs/tf2_gpu
+            shell level : 2
+       user config file : /home/mahmood/.condarc
+ populated config files : 
+          conda version : 4.8.5
+    conda-build version : 3.20.2
+         python version : 3.7.6.final.0
+       virtual packages : __cuda=11.0
+                          __glibc=2.27
+       base environment : /home/gordon/anaconda3  (read only)
+           channel URLs : https://repo.anaconda.com/pkgs/main/linux-64
+                          https://repo.anaconda.com/pkgs/main/noarch
+                          https://repo.anaconda.com/pkgs/r/linux-64
+                          https://repo.anaconda.com/pkgs/r/noarch
+          package cache : /home/gordon/anaconda3/pkgs
+                          /home/mahmood/.conda/pkgs
+       envs directories : /home/mahmood/.conda/envs
+                          /home/gordon/anaconda3/envs
+               platform : linux-64
+             user-agent : conda/4.8.5 requests/2.24.0 CPython/3.7.6 Linux/4.15.0-118-generic ubuntu/18.04.5 glibc/2.27
+                UID:GID : 1003:1004
+             netrc file : None
+           offline mode : False
+
+
+
+
+
+
+
+#!bin/bash
+
+#set environment
+cd ~/../mahmood/.conda/
+conda env list
+conda activate tf2_gpu
+
+export TF_ENABLE_AUTO_MIXED_PRECISION=1 && export PATH=$PATH:/usr/local/cuda-10.0/bin && export CUDADIR=/usr/local/cuda-10.0 && export CUDA_VISIBLE_DEVICES=0,1 && export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.0/lib64 && export TF_FORCE_GPU_ALLOW_GROWTH=true
+
+#get to nnet_fw  
+cd ~
+pwd
+cd /mnt/raid/mahmood/nnet_fw/
+
+#update config.py and create datasets
+#python write.py --augment=True
+#Non Augmented
+python write.py
+
+#Train and evaluate model
+
+# Single modal
+python train.py --model=unet --batch_size=10 --num_epochs=50
+python train.py --model=unet++ --batch_size=10 --num_epochs=50
+
+# Early Fusion
+python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True --early_fusion=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True --early_fusion=True
+
+# Layer Fusion
+python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True
+
+# Late Fusion
+python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True --late_fusion=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True --late_fusion=True
+
+
+
+
+
+#deactivate environment
+conda deactivate
+
+
+
+
+
+

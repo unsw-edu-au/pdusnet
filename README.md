@@ -1,6 +1,4 @@
-# nnet_fw_placenta_seg
-
-NN Framework for 3D Placenta Segmentation 
+# Framework for segmenting 3D Ultrasound
 
 ## Getting Started
 Please refer to `requirements.txt` for all the packages that need to be installed. 

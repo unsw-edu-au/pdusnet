@@ -1,0 +1,30 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Unknown </title></head><body>
+<h1 id="framework-for-segmenting-3d-ultrasound">Framework for segmenting 3D Ultrasound</h1>
+<h2 id="getting-started">Getting Started</h2>
+<p>Please refer to <code>requirements.txt</code> for all the packages that need to be installed. </p>
+<p>Run the following commands to get the environment setup.
+<code>export TF_ENABLE_AUTO_MIXED_PRECISION=1 &amp;&amp; export PATH=$PATH:/usr/local/cuda-10.0/bin &amp;&amp; export CUDADIR=/usr/local/cuda-10.0 &amp;&amp; export CUDA_VISIBLE_DEVICES=0,1 &amp;&amp; export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.0/lib64 &amp;&amp; export TF_FORCE_GPU_ALLOW_GROWTH=true</code></p>
+<h3 id="running-network">Running network</h3>
+<p>Update <code>config.py</code> with any configuration settings you wish to change.</p>
+<h4 id="create-datasets">Create datasets</h4>
+<p>```
+python write.py --augment=True</p>
+<h1 id="non-augmented">Non Augmented</h1>
+<p>python write.py
+```</p>
+<h4 id="train-and-evaluate-model">Train and evaluate model</h4>
+<p>```</p>
+<h1 id="single-modal">Single modal</h1>
+<p>python train.py --model=unet --batch_size=10 --num_epochs=50
+python train.py --model=unet++ --batch_size=10 --num_epochs=50</p>
+<h1 id="early-fusion">Early Fusion</h1>
+<p>python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True --early_fusion=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True --early_fusion=True</p>
+<h1 id="layer-fusion">Layer Fusion</h1>
+<p>python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True</p>
+<h1 id="late-fusion">Late Fusion</h1>
+<p>python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True --late_fusion=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True --late_fusion=True</p>
+<p>```</p>
+</body></html>

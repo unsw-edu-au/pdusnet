@@ -1,0 +1,58 @@
+
+- Go to 'Applications' on top left side of your desktop screen on PIRG Server (129.94.29.252) and press 'Terminal Emulator' to open a new trminal
+
+- In terminal, type 'Spyder' and press Enter key- It will open Python IDE Spyder
+
+- In Spyder, open '/mnt/raid/julie/nnfw/nnfw_placenta_seg/config.py' file and update parameters (if needed)  
+
+- Go to 'Applications' and open another terminal
+
+- Change your working dirctory to '/mnt/raid/julie/nnfw/nnfw_placenta_seg/'
+
+- type 'conda env list' to check available Anaconda virtual environments
+
+- type 'conda activate tf2_gpu' to load 'tf2_gpu' environment- you will see left of your command prompt changed from (base) to (tf2_gpu)
+
+- type the following and press Enter key to pass environment variables and functions (e.g., parallel computing platform and API CUDA) to child processes
+
+export TF_ENABLE_AUTO_MIXED_PRECISION=1 && export PATH=$PATH:/usr/local/cuda-10.0/bin && export CUDADIR=/usr/local/cuda-10.0 && export CUDA_VISIBLE_DEVICES=0,1 && export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.0/lib64 && export TF_FORCE_GPU_ALLOW_GROWTH=true
+
+- type the following commands to create datasets 
+
+#non augmented  
+python write.py   
+
+#augmented
+python write.py --augment=True 
+
+- type the following commands to train and evaluate the model
+
+# Single modal
+# For training and testing
+python train.py --model=unet --batch_size=10 --num_epochs=50 --old_weights=''
+#For testing only
+python train.py --model=unet --batch_size=10 --num_epochs=50 --test_only=True --old_weights='Old_Model_from_checkpoints'
+
+
+
+#Possible variations
+# Single modal
+python train.py --model=unet --batch_size=10 --num_epochs=50
+python train.py --model=unet++ --batch_size=10 --num_epochs=50
+
+# Early Fusion
+python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True --early_fusion=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True --early_fusion=True
+
+# Layer Fusion
+python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True
+
+# Late Fusion
+python train.py --model=unet --batch_size=10 --num_epochs=50 --multi_modal=True --late_fusion=True
+python train.py --model=unet++ --batch_size=10 --num_epochs=50 --multi_modal=True --late_fusion=True
+
+
+
+
+
