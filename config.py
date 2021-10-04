@@ -7,7 +7,8 @@ augmented_dataset_output_path = 'augmented_data/'
 log_path = 'logs/'
 results_path = 'results/'
 
-data_path_prefix = '/mnt/raid/julie/nnfw_2/PlacentaData2018and2019_v51_6Nov2020/'
+# data_path_prefix = '/mnt/raid/julie/nnfw_2/PlacentaData2018and2019_v51_6Nov2020/'
+data_path_prefix = '/mnt/raid/julie/nipuna_TrainingData64/'
 
 
 checkpoint_path = 'checkpoints/'
@@ -23,44 +24,49 @@ n_channels = 1
 model_type = "unet++"
 
 # Training settings
-batch_size = 20
-epochs = 50
-n_filters = [8, 16, 32, 64, 128]
-#n_filters = [16, 32, 64, 128, 256]
+# batch_size = 20
+# epochs = 50
+batch_size = 10
+epochs = 30
+# n_filters = [8, 16, 32, 64, 128]
+n_filters = [16, 32, 64, 128, 256]
 
 ###################
 my_nnfw_data_folder = '/mnt/raid/julie/nnfw_2/PlacentaData2018and2019_v51_6Nov2020_info/'
-
+# Need to make new csv files for testing, training and validation
+# my_nnfw_data_folder = '/mnt/raid/KidneyData/ScanList.csv'
 
 
 
 my_train_csv_file = '{}info_training_images.csv'.format(my_nnfw_data_folder)
 my_validation_csv_file = '{}info_validation_images.csv'.format(my_nnfw_data_folder)
 my_test_csv_file = '{}info_test_images.csv'.format(my_nnfw_data_folder)
+
+# df is dataframe
 df_train = pd.read_csv(my_train_csv_file)
 df_validation = pd.read_csv(my_validation_csv_file)
 df_test = pd.read_csv(my_test_csv_file)
 ###################
 
-#train_samples = 60
+train_samples = 60
 #train_samples = len(df_train) #420 (approx. 60% of 705) - comibined 2018 & 2019 Placenta data
 #train_samples = len(df_train) #160 (approx. 60% of 276) - 2018 Placenta data
 #train_samples = len(df_train) #120 (approx. 60% of 226) - comibined 2018 & 2019 Placenta data_ set 1 (9x9 common patch in middle of middle slice)
 #train_samples = len(df_train) #240 (approx. 60% of 417) - comibined 2018 & 2019 Placenta data randomized
-train_samples = len(df_train) #240 (approx. 60% of 417) - v5 dataset
+# train_samples = len(df_train) #240 (approx. 60% of 417) - v5 dataset
 
 train_samples_total = 14 * train_samples
 
-#validation_samples = 20
+validation_samples = 20
 #validation_samples = 80
 #validation_samples = len(df_validation) #120 (approx. 20% of 705) - comibined 2018 & 2019 Placenta data
 #validation_samples = len(df_validation) #40 (approx. 20% of 276) - 2018 Placenta data
 #validation_samples = len(df_validation) #40 (approx. 20% of 226) - comibined 2018 & 2019 Placenta data_ set 1 (9x9 common patch in middle of middle slice)
 #validation_samples = len(df_validation) #80 (approx. 20% of 417) - comibined 2018 & 2019 Placenta data randomized
-validation_samples = len(df_validation) #80 (approx. 20% of 417) - v5 dataset
+# validation_samples = len(df_validation) #80 (approx. 20% of 417) - v5 dataset
 
 #test_samples = 10
-#test_samples = 20
+# test_samples = 20
 #test_samples = 40
 #test_samples = 80
 #test_samples = len(df_test) #140 (approx. 20% of 705) - comibined 2018 & 2019 Placenta data
